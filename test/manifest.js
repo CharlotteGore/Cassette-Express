@@ -23,6 +23,36 @@
 
 			});
 
+			it('successfully gets all assets in a specified folder', function(){
+
+				var manifest = Manifest(assetsPath);
+
+				manifest.should.have.property('getFilesFromBundle');
+
+				var assets = manifest.getFilesFromBundle('/NonCircularBundleRefs');
+
+				assets.should.have.property('/NonCircularBundleRefs/A/a.js');
+				assets.should.have.property('/NonCircularBundleRefs/B/b.js');
+				assets.should.have.property('/NonCircularBundleRefs/C/c.js');
+
+
+			});
+
+			it('successfully gets all assets if root requested', function(){
+
+				var manifest = Manifest(assetsPath);
+
+				var assets = manifest.getFilesFromBundle('')
+				// yuck
+				var count = 0, i;
+				for(i in assets){
+					count++;					
+				}
+
+				count.should.eql(11);
+
+			});
+
 			it('can return an assembly of one file, no dependencies', function(){
 
 				var manifest = Manifest(assetsPath);
@@ -31,21 +61,10 @@
 
 				assembly.should.have.property('getDebugTags');
 				assembly.should.have.property('getTag');
-				assembly.assets.should.have.length(1);
+				assembly.should.have.length(1);
 
 			});
 
-			it('can return an assembly of one file, no dependencies', function(){
-
-				var manifest = Mansifest(assetsPath);
-
-				var assembly = manifest.createAssembly('/NoDependencies/a.js');
-
-				assembly.should.have.property('getDebugTags');
-				assembly.should.have.property('getTag');
-				assembly.assets.should.have.length(1);
-
-			});
 
 		});
 
