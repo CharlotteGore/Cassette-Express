@@ -6,16 +6,12 @@
 
 		describe('when given a path to javascript files', function(){
 
-			it('can create a manifest', function(){
+			it('creates an instance with ', function(){
 
-				var bundles = cassette({ assetsPath : process.env.PWD + '/test/examples' });
+				var assets = cassette({ assetsPath : process.env.PWD + '/test/examples' });
 
-				bundles.should.have.property('manifest');
-				var manifest = bundles.manifest.query()
-
-				manifest.should.have.property('');
-				manifest.should.have.property('/CircularFileRefs');
-				manifest.should.have.property('/NonCircularBundleRefs');			
+				assets.should.have.property('middleware');
+				assets.middleware().should.have.property('useAsset');
 				//bundles.getBundles().should.have.property('NonCircularFileRefs');
 
 			});

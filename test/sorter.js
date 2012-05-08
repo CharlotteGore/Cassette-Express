@@ -46,7 +46,7 @@
 
 	describe('the sorting algorithm', function(){
 
-		describe('using an object collection', function(){
+		describe("using an object collection when they're non-cyclic", function(){
 
 			it('can resolve dependencies', function(){
 
@@ -63,6 +63,22 @@
 				sorted[1].should.equal(nonCyclic['c']);
 				sorted[2].should.equal(nonCyclic['b']);
 				sorted[3].should.equal(nonCyclic['a']);
+
+			});
+
+			it("can't resolve dependencies when they're cyclic", function(){
+
+				(function(){
+
+					sorter().sort(cyclic, function( item ){
+						return {
+							key : item.name,
+							dependsOn : item.dependencies.slice(0)				
+						};
+
+					});
+
+				}).should.throw();
 
 			});
 
