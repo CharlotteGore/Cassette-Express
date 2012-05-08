@@ -21,10 +21,11 @@ The target implementation:
 	});
 
 	// in layout.jade
-	!= assets.useAsset('/mycode')
+	!= assets.useAsset('mycode.js')
 
-	// which would output a load of script tags which includes everything in /mycode and anything
-	// they depend on, and everything they depend on and so on...
+	// which, in debug, would output a script tag for mycode.js, and one for every file it depends on, and one for every file
+	// they depend on and so on, all sorted properly and in the correct order. 
+	// in production, it would turn all these individual scripts into a single uglified, heavily cached, download. 
 
 Unlike Cassette MVC, there's no requirement to explicitly reference bundles in advance. Any javascript asset or directory in assetsPath can be referenced or requested.
 
