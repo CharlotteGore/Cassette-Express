@@ -16,7 +16,7 @@ The target implementation:
 		outputPath : '/javascripts'
 	});
 
-	app.use('view options', {
+	app.set('view options', {
 		assets : cassette.middleware()
 	});
 
