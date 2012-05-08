@@ -10,21 +10,21 @@ This project is to get a similar experience when using Express on Node.
 
 The target implementation:
 
-  // in app.js
-  var cassette = require('cassette-express')({
-    assetsPath : process.env.PWD + '/public/javascripts',
-    outputPath : '/javascripts'
-  });
-  ...
-  app.use('view options', {
-    assets : cassette.middleware()
-  });
+	// in app.js
+	var cassette = require('cassette-express')({
+		assetsPath : process.env.PWD + '/public/javascripts',
+		outputPath : '/javascripts'
+	});
 
-  // in layout.jade
-  != assets.useAsset('/mycode')
-  
-  // which would output a load of script tags which includes everything in /mycode and anything
-  // they depend on, and everything they depend on and so on...
+	app.use('view options', {
+		assets : cassette.middleware()
+	});
+
+	// in layout.jade
+	!= assets.useAsset('/mycode')
+
+	// which would output a load of script tags which includes everything in /mycode and anything
+	// they depend on, and everything they depend on and so on...
 
 Unlike Cassette MVC, there's no requirement to explicitly reference bundles in advance. Any javascript asset or directory in assetsPath can be referenced or requested.
 
