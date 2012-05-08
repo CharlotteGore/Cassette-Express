@@ -7,7 +7,7 @@
     ""
   ],
   "version": "0.0.1",
-  "homepage": "https://CharlotteGore@github.com/CharlotteGore/Cassette.git",
+  "homepage": "https://CharlotteGore@github.com/CharlotteGore/Cassette-Express.git",
   "author": {
     "name": "Charlotte Gore",
     "email": "conspiracygore@gmail.com",
@@ -21,7 +21,6 @@
     }
   ],
   "dependencies": {
-    "gatherer" : "x",
     "base-framework": "1.0.x",
     "underscore" : "1.3.x"
   },
@@ -35,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/CharlotteGore/Cassette.git"
+    "url": "git://github.com/CharlotteGore/Cassette-Express.git"
   },
   "engines": {
     "node": "*"
