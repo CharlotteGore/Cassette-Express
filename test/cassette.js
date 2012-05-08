@@ -4,7 +4,7 @@
 
 	describe('Using cassette to manage javascript assets',function(){
 
-		describe('when creating bundles', function(){
+		describe('when given a path to javascript files', function(){
 
 			it('can create a manifest', function(){
 
