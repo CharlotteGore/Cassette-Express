@@ -30,3 +30,6 @@ The target implementation:
 Unlike Cassette MVC, there's no requirement to explicitly reference bundles in advance. Any javascript asset or directory in assetsPath can be referenced or requested.
 
 Sadly after a promising spike I'm now rewriting it in a slightly more sane way with more test coverage. At the moment there's a big chunk missing so it doesnt work but hopefully won't be too long now. 
+
+Done: Sorting. Parsing references. Scanning the filesystem to build a manifest. 
+To Do: turn a request for an asset into a canonical list of required files ready for sorting, 'production' mode (assemble into single file, uglify, caching), monitoring file system for changes.
