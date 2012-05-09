@@ -31,10 +31,7 @@
 
 				var assets = manifest.getFilesFromBundle('/NonCircularBundleRefs');
 
-				assets.should.have.property('/NonCircularBundleRefs/A/a.js');
-				assets.should.have.property('/NonCircularBundleRefs/B/b.js');
-				assets.should.have.property('/NonCircularBundleRefs/C/c.js');
-
+				assets.should.eql(['/NonCircularBundleRefs/A/a.js', '/NonCircularBundleRefs/B/b.js', '/NonCircularBundleRefs/C/c.js']);
 
 			});
 
