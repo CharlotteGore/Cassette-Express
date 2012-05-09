@@ -1,6 +1,6 @@
 #Cassette Express
 
-Status: Still a little way away from being a working piece of software :(
+Status: 9th/5/2012 Still a little way away from being a working piece of software :(
 
 In the process of porting a portion of Andrew Davey's [Cassette]https://github.com/andrewdavey/cassette to Node.js. This repo is basically the work in progress. 
 
