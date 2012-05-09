@@ -1,5 +1,7 @@
 #Cassette Express
 
+Status: Still a little way away from being a working piece of software :(
+
 In the process of porting a portion of Andrew Davey's [Cassette]https://github.com/andrewdavey/cassette to Node.js. This repo is basically the work in progress. 
 
 I've been using the c# .net version of Cassette on my current contract to help me manage my client side javascript assets. It means you can break up your javascript into smaller, more manageable files, specify their dependencies in comments and then have Cassette generate the necessary script tags. 
