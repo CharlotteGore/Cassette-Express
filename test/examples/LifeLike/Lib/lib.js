@@ -1,0 +1,4 @@
+
+var lib = {
+	name : 'lib';	
+};

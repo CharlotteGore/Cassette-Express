@@ -1,0 +1,3 @@
+// @reference ../Lib
+
+anotherthing = 'another';
