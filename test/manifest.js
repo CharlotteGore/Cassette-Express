@@ -172,7 +172,89 @@
 
 			});
 
+			it('Gets an assembly from a single file', function(){
+				
+				var assembly = manifest.createAssembly( norm('/NoDependencies/a.js') );
+
+				assembly.should.have.property('assets');
+				assembly.should.have.property('getDebugTags');
+				assembly.should.have.property('getTag');
+
+				assembly.should.have.length(1);
+
+				assembly.query().should.eql([norm('/NoDependencies/a.js')]);
+
+				assembly.assets[0].data.should.eql('var a = 0;');
+
+
+			});
+
+
+			it('Throws an error on cyclic file dependencies', function(){
+				
+				(function(){
+
+					var assembly = manifest.createAssembly( norm('/CircularFileRefs') );
+
+				}).should.throw();
+
+
+			});	
+
+			it('Throws an error on cyclic bundle dependencies', function(){
+				
+				(function(){
+
+					var assembly = manifest.createAssembly( norm('/CircularBundleRefs/A') );
+
+				}).should.throw();
+
+
+			});		
+
+			it('Can get an assembly with file dependencies', function(){
+				
+				var assembly = manifest.createAssembly( norm('/NonCircularFileRefs/a.js') );
+
+				assembly.should.have.length(3);
+
+				assembly.query().should.eql([norm('/NonCircularFileRefs/c.js'), norm('/NonCircularFileRefs/b.js'), norm('/NonCircularFileRefs/a.js')])
+
+			});	
 			
+			it('Can get an assembly with "bundle" dependencies', function(){
+				
+				var assembly = manifest.createAssembly( norm('/NonCircularBundleRefs/A') );
+
+				assembly.should.have.length(3);
+
+				assembly.query().should.eql([
+						norm('/NonCircularBundleRefs/C/c.js'), 
+						norm('/NonCircularBundleRefs/B/b.js'), 
+						norm('/NonCircularBundleRefs/A/a.js')]);
+
+			});	
+
+			it('Can resolve and sort a hideously complex, mostly lifelike set of nested dependencies', function(){
+				
+				var assembly = manifest.createAssembly( norm('/LifeLike/App/app.js') );
+
+				assembly.should.have.length(11);
+
+				assembly.query().should.eql([
+						norm('/LifeLike/Lib/lib.js'), 
+						norm('/LifeLike/Lib/lib-plugin.js'),
+						norm('/LifeLike/Lib/lib-wrapper.js'),
+						norm('/LifeLike/OtherLib/1.js'),
+						norm('/LifeLike/OtherLib/2.js'),
+						norm('/LifeLike/AndAnotherThing/anotherthing.js'),
+						norm('/LifeLike/SomeOtherThing/something.js'),
+						norm('/LifeLike/OtherLib/3.js'),
+						norm('/LifeLike/App/app-namespace.js'),
+						norm('/LifeLike/App/Features/feature.js'), 
+						norm('/LifeLike/App/app.js')]);
+
+			});	
 
 		})
 
