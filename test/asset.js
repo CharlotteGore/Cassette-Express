@@ -1,6 +1,14 @@
 	var should = require('should'),
 		fs = require('fs'),
-		Asset;
+		Asset,
+		path = require('path');
+
+		var norm = function(p){
+
+			return path.normalize(p);
+
+		}
+
 
 		describe('using the Asset module', function(){
 
@@ -14,7 +22,7 @@
 
 					var asset = Asset('a.js', '/NonCircularFileRefs', assetsPath);
 
-					asset.fileDependencies().should.eql(['/NonCircularFileRefs/b.js']);
+					asset.fileDependencies().should.eql([norm('/NonCircularFileRefs/b.js')]);
 					asset.bundleDependencies().should.eql([]);
 					asset.should.have.property('status');			
 
