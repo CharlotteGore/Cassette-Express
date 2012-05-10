@@ -1,6 +1,8 @@
 #Cassette Express
 
-Status: 9th/5/2012 Still a little way away from being a working piece of software :(
+Status: 
+-10th/5/2012 Am now able to turn a request for a specific javascript file or directory into a list of required files to be sorted. This version, unlike the original spike, is immune to circular references! Work: Justified. Not long to go now...
+-9th/5/2012 Still a little way away from being a working piece of software :(
 
 In the process of porting a portion of Andrew Davey's [Cassette]https://github.com/andrewdavey/cassette to Node.js. This repo is basically the work in progress. 
 
