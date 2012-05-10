@@ -12,7 +12,7 @@ The workflow for Cassette is quite simple:
 - Break your client-side javascript code into smaller, easier to manage chunks. 
 - Add references to any dependencies in your files - jQuery, Underscore, Ender, whatever you're using. 
 - Request a javascript file in your template, and Cassette will automatically generate a 'bundle' which will contain all the dependencies, in the correct order. 
-- In production mode, it'll take that bundle, merge it into a single file and minify the bugger death. 
+- In production mode, it'll take that bundle, merge it into a single file and minify the bugger to death. 
 
 You don't need to worry about script tags. You don't need any additional client side javascript. You don't have to code your javascript in a particular style or way, and you don't need special versions of the Javascript libraries that you use all the time. 
 
