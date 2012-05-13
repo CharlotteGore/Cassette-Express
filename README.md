@@ -1,44 +1,69 @@
 #Cassette Express
 
+The short version: CI friendly Javascript asset bundling for those of us who don't want to rewrite our client side Javascript as CommonJS modules
+
+The long version:
+
+- Reference a Javascript file in your template. Get it, and all dependencies, in the right order, in the page. 
+- CI Friendly. No separate build process. No command line tools. 
+- Declare dependencies as comments, i.e, `// @reference ../lib/jquery.1.7.2.js`
+- Reference entire directories instead of individual files with `// @reference ../lib`
+- Debug mode returns individual javascript files to the browser and dynamically responds to your changes.
+- Production mode bundles all javascript into a single minified download using Uglify.
+
+Because this isn't a CommonJS based system, you can use all the same javascript libraries and files you're already using. You can even use it with Ender, too, by referencing the unminified version, ie., `// @reference ../lib/ender.js`.
+
 ##Status
 
-*Not Ready for Use* Most of the internal functionality complete, but interface with Express... not. The only reason this repo is public is because I'm too cheap to pay for private repos. 
+_Working, but incomplete_
+
+- No 'production' mode for single, minified download of client side javascript
+- Insufficient test coverage of debug mode features
+- No integration documentation.
 
 ##Background
 
-I'm in the process of porting a portion of Andrew Davey's Cassette package(https://github.com/andrewdavey/cassette) to Node. It's an asset management system. This version will only deal with client side Javascript assets at this stage.
-
-The workflow for Cassette is quite simple: 
-- Break your client-side javascript code into smaller, easier to manage chunks. 
-- Add references to any dependencies in your files - jQuery, Underscore, Ender, whatever you're using. 
-- Request a javascript file in your template, and Cassette will automatically generate a 'bundle' which will contain all the dependencies, in the correct order. 
-- In production mode, it'll take that bundle, merge it into a single file and minify the bugger to death. 
-
-You don't need to worry about script tags. You don't need any additional client side javascript. You don't have to code your javascript in a particular style or way, and you don't need special versions of the Javascript libraries that you use all the time. 
-
-That's Cassette. 
+Cassette-Express is an adaptation of Andrew Davey's Cassette (https://github.com/andrewdavey/cassette), a .net package which helps developers manage CSS, Javascript, Coffeescript assets. It is pretty bloody useful. 
 
 ##Target Implementation
 
 In app.js:
 
 	var cassette = require('cassette-express')({
-		assetsPath : process.env.PWD + '/public/javascripts',
-		outputPath : '/javascripts'
+		assetsPath : './public/javascripts',
+		outputPath : '/javascripts',
+		mode : 'debug' || 'production'
 	});
 
-A little later on in app.js: 
+A little later on in app.js we make sure we have access to Cassette inside the templates..
 
 	app.set('view options', {
 		assets : cassette.middleware()
 	});
 
 
-In a template, i.e, layout.jade:
+Then in our template, i.e, layout.jade:
 
-	!= assets.useAsset('client-app.js')
+	!= assets.useAsset('/app/client-app.js')
 
-This will generate the necessary script tags to load this file, and all its dependencies, in the correct order. This saves a lot of aggro.
+Which, in debug mode, would output something like...
+
+	<script src="/javascripts/lib/jquery.js"></script>
+	<script src="/javascripts/lib/jquery-someplugin.js"></script>
+	<script src="/javascripts/lib/jquery-some-other-plugin.js"></script>
+	<script src="/javascripts/lib/underscore.js"></script>
+	<script src="/javascripts/lib/my-own-library-stuff.js"></script>
+	<script src="/javascripts/app/app-namespace.js"></script>
+	<script src="/javascripts/app/features/navigator.js"></script>
+	<script src="/javascripts/app/features/content.js"></script>
+	<script src="/javascripts/app/client-app.js"></script>
+
+And in production mode all those scripts are merged, minified and then you get...
+
+	<script src="/javascripts/cassette/AEEE546E7B7C7BCEBC.min.js"></script>
+
+The gathering and sorting of dependencies is done automatically. In debug mode bundles are reassembled if there are any changes to teh sources. In production mode, node must be restarted before a new minified bundle is generated.
+
 
 ## Differences between Cassette-Express and Cassette MVC
 
@@ -46,4 +71,4 @@ This will generate the necessary script tags to load this file, and all its depe
 - Bundles will always be one single file in production mode, not multiple files depending on how they were pre-referenced.
 - No automagic coffeescript compiling. Poor Coffeescript.
 - No stylesheet merging/compiling.
-- Cassette-Express doesn't actually work yet. Hahah. 
+- Significantly less features. Ha.
