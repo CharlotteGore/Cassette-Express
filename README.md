@@ -15,25 +15,30 @@ Because this isn't a CommonJS based system, you can use all the same javascript 
 
 ##Status
 
-_Working, but incomplete_
+_Working, unstable_
 
-- No 'production' mode for single, minified download of client side javascript
-- Insufficient test coverage of debug mode features
-- No integration documentation.
+- Some test coverage for debug and production mode specific behaviours not there yet
+- Insufficient documentation.
 
 ##Background
 
 Cassette-Express is an adaptation of Andrew Davey's Cassette (https://github.com/andrewdavey/cassette), a .net package which helps developers manage CSS, Javascript, Coffeescript assets. It is pretty bloody useful. 
 
-##Target Implementation
+##Installing
 
-In app.js:
+	npm install cassette-express
+	cd node_modules/cassette-express
+	npm install
 
-	var cassette = require('cassette-express')({
-		assetsPath : './public/javascripts',
-		outputPath : '/javascripts',
-		mode : 'debug' || 'production'
-	});
+##Typical Implementation
+
+In typical ExpressJS app.js file, assuming you're still using the default /public/javascripts 
+
+	// debug mode, every request the files are checked for changes & individual file downloads.
+	var cassette = require('cassette-express')();
+
+	// or production mode, generated once per restart. One single minified download.
+	var cassette = require('cassette-express')({ mode : 'production' });
 
 A little later on in app.js we make sure we have access to Cassette inside the templates..
 
@@ -62,8 +67,9 @@ And in production mode all those scripts are merged, minified and then you get..
 
 	<script src="/javascripts/cassette/AEEE546E7B7C7BCEBC.min.js"></script>
 
-The gathering and sorting of dependencies is done automatically. In debug mode bundles are reassembled if there are any changes to teh sources. In production mode, node must be restarted before a new minified bundle is generated.
+By default the compiled files are put in /public/javascripts/cassette. 
 
+The gathering and sorting of dependencies is done automatically. In debug mode bundles are reassembled if there are any changes to teh sources. In production mode, node must be restarted before a new minified bundle is generated.
 
 ## Differences between Cassette-Express and Cassette MVC
 
