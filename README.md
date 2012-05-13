@@ -27,8 +27,6 @@ Cassette-Express is an adaptation of Andrew Davey's Cassette (https://github.com
 ##Installing
 
 	npm install cassette-express
-	cd node_modules/cassette-express
-	npm install
 
 ##Typical Implementation
 
