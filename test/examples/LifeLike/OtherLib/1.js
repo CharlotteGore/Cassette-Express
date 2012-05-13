@@ -1,3 +1,8 @@
 // @reference ../Lib
 
-var a = 0;
+(function(secret){
+
+	window.a = secret;
+
+}(secret));
+

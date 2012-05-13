@@ -11,16 +11,16 @@
 	describe('Using the manifest module', function(){
 
 		var Manifest = require('../lib/manifest.js');
-		var assetsPath = process.env.PWD + '/test/examples';
-
+		var assetsPath = './test/examples';
+		var outputPath = '/examples';
 
 		describe('scanning teh file system', function(){
 
 			it('successfully generates a manifest', function(){
 
-				var manifest = Manifest(assetsPath);
+				var manifest = Manifest(assetsPath, outputPath);
 
-				manifest.should.have.property('createAssembly');
+				manifest.should.have.property('getAssembly');
 
 				var rawdata = manifest.query();
 
@@ -37,7 +37,7 @@
 
 			before(function(){
 
-				manifest = Manifest(assetsPath);
+				manifest = Manifest(assetsPath, outputPath);
 
 			});
 
@@ -74,7 +74,7 @@
 
 			before(function(){
 
-				manifest = Manifest(assetsPath);
+				manifest = Manifest(assetsPath, outputPath);
 
 			});
 
@@ -168,13 +168,13 @@
 
 			before(function(){
 
-				manifest = Manifest(assetsPath);
+				manifest = Manifest(assetsPath, outputPath);
 
 			});
 
 			it('Gets an assembly from a single file', function(){
 				
-				var assembly = manifest.createAssembly( norm('/NoDependencies/a.js') );
+				var assembly = manifest.getAssembly( norm('/NoDependencies/a.js') );
 
 				assembly.should.have.property('assets');
 				assembly.should.have.property('getDebugTags');
@@ -194,7 +194,7 @@
 				
 				(function(){
 
-					var assembly = manifest.createAssembly( norm('/CircularFileRefs') );
+					var assembly = manifest.getAssembly( norm('/CircularFileRefs') );
 
 				}).should.throw();
 
@@ -205,7 +205,7 @@
 				
 				(function(){
 
-					var assembly = manifest.createAssembly( norm('/CircularBundleRefs/A') );
+					var assembly = manifest.getAssembly( norm('/CircularBundleRefs/A') );
 
 				}).should.throw();
 
@@ -214,7 +214,7 @@
 
 			it('Can get an assembly with file dependencies', function(){
 				
-				var assembly = manifest.createAssembly( norm('/NonCircularFileRefs/a.js') );
+				var assembly = manifest.getAssembly( norm('/NonCircularFileRefs/a.js') );
 
 				assembly.should.have.length(3);
 
@@ -224,7 +224,7 @@
 			
 			it('Can get an assembly with "bundle" dependencies', function(){
 				
-				var assembly = manifest.createAssembly( norm('/NonCircularBundleRefs/A') );
+				var assembly = manifest.getAssembly( norm('/NonCircularBundleRefs/A') );
 
 				assembly.should.have.length(3);
 
@@ -237,7 +237,7 @@
 
 			it('Can resolve and sort a hideously complex, mostly lifelike set of nested dependencies', function(){
 				
-				var assembly = manifest.createAssembly( norm('/LifeLike/App/app.js') );
+				var assembly = manifest.getAssembly( norm('/LifeLike/App/app.js') );
 
 				assembly.should.have.length(11);
 
@@ -256,7 +256,7 @@
 
 			});	
 
-		})
+		});
 
 
 	});

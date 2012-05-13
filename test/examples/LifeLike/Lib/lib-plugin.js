@@ -1,7 +1,12 @@
 // @reference lib.js
 
-lib.plugin = function(){ 
+(function(lib){
 
-	return true; 
+	lib.plugin = function(){ 
 
-}
+		return 42; 
+
+	};
+
+}(lib));
+

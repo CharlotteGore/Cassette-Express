@@ -1,3 +1,4 @@
 // @reference ../OtherLib
 
-var myNamespace = function(){}
+
+	var myNamespace = function(){};

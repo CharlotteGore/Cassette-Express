@@ -1,3 +1,8 @@
 // @reference ../AndAnotherThing
 
-var something = 'this';
+(function(anotherthing ){
+
+	window.something = 'this thing and ' + anotherthing;
+
+}(anotherthing));
+

@@ -16,11 +16,11 @@
 
 			describe('with valid path details', function(){
 
-				var assetsPath = fs.realpathSync(process.env.PWD + '/test/examples');
+				var assetsPath = norm('./test/examples');
 
 				it('can create an asset', function(){
 
-					var asset = Asset('a.js', '/NonCircularFileRefs', assetsPath);
+					var asset = Asset('a.js', '/NonCircularFileRefs', assetsPath, {mtime : (new Date()) } );
 
 					asset.fileDependencies().should.eql([norm('/NonCircularFileRefs/b.js')]);
 					asset.bundleDependencies().should.eql([]);

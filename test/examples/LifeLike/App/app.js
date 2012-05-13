@@ -1,7 +1,9 @@
-// @reference ../OtherLib ./app-namespace.js ./Features 
+// @reference ./app-namespace.js ./Features 
 
-myNamespace.prototype.run = function(){
+(function(myNamespace, secret){
 
-	this.hello();
+	var app = new myNamespace();
+	app.init();
+	app.hello();
 
-};
+}(myNamespace, secret))

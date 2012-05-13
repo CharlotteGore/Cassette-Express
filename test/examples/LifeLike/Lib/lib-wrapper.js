@@ -1,4 +1,8 @@
 // @reference lib.js lib-plugin.js
 
-var wrapper = lib;
-var shortcut = lib.plugin;
+(function(lib){
+
+	window.secret = lib.plugin();
+
+}(lib));
+

@@ -1,4 +1,11 @@
 
-var lib = {
-	name : 'lib';	
-};
+(function(){
+
+	var lib = {
+		name : 'lib'
+	};
+
+	window.lib = lib;
+
+}());
+

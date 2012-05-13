@@ -1,3 +1,7 @@
 // @reference ../Lib
 
-anotherthing = 'another';
+(function(window, secret){
+
+	window.anotherthing = "a thing " + secret;
+
+}(window, secret));
