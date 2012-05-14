@@ -6,7 +6,7 @@ The long version:
 
 - Reference a Javascript file in your template. Get it, and all dependencies, in the right order, in the page. 
 - CI Friendly. No separate build process. No command line tools. 
-- Declare dependencies as comments, i.e, `// @reference ../lib/jquery.1.7.2.js`
+- Declare dependencies as comments with relative paths, i.e, `// @reference ../lib/jquery.1.7.2.js`
 - Reference entire directories instead of individual files with `// @reference ../lib`
 - Debug mode returns individual javascript files to the browser and dynamically responds to your changes.
 - Production mode bundles all javascript into a single minified download using Uglify.
@@ -15,20 +15,24 @@ Because this isn't a CommonJS based system, you can use all the same javascript 
 
 ##Status
 
-_Working, unstable_
+_Working, ready for real world testing_ 
+
+##Known issues
 
 - Some test coverage for debug and production mode specific behaviours not there yet
 - Insufficient documentation.
+- No ability to reference external scripts yet
+- Insufficient real world testing to know what the known issues really are.
 
 ##Background
 
-Cassette-Express is an adaptation of Andrew Davey's Cassette (https://github.com/andrewdavey/cassette), a .net package which helps developers manage CSS, Javascript, Coffeescript assets. It is pretty bloody useful. 
+Cassette-Express is an adaptation of Andrew Davey's Cassette (https://github.com/andrewdavey/cassette), a .net package which helps developers manage CSS, Javascript, Coffeescript assets. It is amazingly useful. I wanted to use the same client side javascript in Node projects and discovered the same functionality - working with any javascript, not just CommonJS modules - didn't exist. 
 
 ##Installing
 
 	npm install cassette-express
 
-##Typical Implementation
+##Implementation
 
 In typical ExpressJS app.js file, assuming you're still using the default /public/javascripts 
 
@@ -68,6 +72,16 @@ And in production mode all those scripts are merged, minified and then you get..
 By default the compiled files are put in /public/javascripts/cassette. 
 
 The gathering and sorting of dependencies is done automatically. In debug mode bundles are reassembled if there are any changes to teh sources. In production mode, node must be restarted before a new minified bundle is generated.
+
+##Example
+
+In the repo, in the EXAMPLE folder, there's a skeleton Express.js application. The files of interest are app.js, views/index.jade and the javascript files in /public/javascripts. If you go into this folder, do `npm install` then `node app.js` you can test it's working.
+
+##Next Steps
+
+- Integration with Amazon S3 to allow automatic upload of minified bundles
+- Add a dependency by referencing an external file, have that file downloaded and added to your bundle. 
+- If people want it, I could add automatic Coffeescript compiling. So far no-one wants it.
 
 ## Differences between Cassette-Express and Cassette MVC
 
