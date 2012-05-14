@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Cassette-express : An asset manager for your client side javascript files, for use in Express.JS" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Cassette-express</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/CharlotteGore/Cassette-Express">View on GitHub</a>
+
+          <h1 id="project_title">Cassette-express</h1>
+          <h2 id="project_tagline">An asset manager for your client side javascript files, for use in Express.JS</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/CharlotteGore/Cassette-Express/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/CharlotteGore/Cassette-Express/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Cassette Express</h1>
+
+<p>The short version: CI friendly Javascript asset bundling for those of us who don't want to rewrite our client side Javascript as CommonJS modules</p>
+
+<p>The long version:</p>
+
+<ul>
+<li>Reference a Javascript file in your template. Get it, and all dependencies, in the right order, in the page. </li>
+<li>CI Friendly. No separate build process. No command line tools. </li>
+<li>Declare dependencies as comments with relative paths, i.e, <code>// @reference ../lib/jquery.1.7.2.js</code>
+</li>
+<li>Reference entire directories instead of individual files with <code>// @reference ../lib</code>
+</li>
+<li>Debug mode returns individual javascript files to the browser and dynamically responds to your changes.</li>
+<li>Production mode bundles all javascript into a single minified download using Uglify.</li>
+</ul><p>Because this isn't a CommonJS based system, you can use all the same javascript libraries and files you're already using. You can even use it with Ender, too, by referencing the unminified version, ie., <code>// @reference ../lib/ender.js</code>.</p>
+
+<h2>Status</h2>
+
+<p><em>Working, ready for real world testing</em> </p>
+
+<h2>Known issues</h2>
+
+<ul>
+<li>Some test coverage for debug and production mode specific behaviours not there yet</li>
+<li>Insufficient documentation.</li>
+<li>No ability to reference external scripts yet</li>
+<li>Insufficient real world testing to know what the known issues really are.</li>
+</ul><h2>Background</h2>
+
+<p>Cassette-Express is an adaptation of Andrew Davey's Cassette (<a href="https://github.com/andrewdavey/cassette">https://github.com/andrewdavey/cassette</a>), a .net package which helps developers manage CSS, Javascript, Coffeescript assets. It is amazingly useful. I wanted to use the same client side javascript in Node projects and discovered the same functionality - working with any javascript, not just CommonJS modules - didn't exist. </p>
+
+<h2>Installing</h2>
+
+<pre><code>npm install cassette-express
+</code></pre>
+
+<h2>Implementation</h2>
+
+<p>In typical ExpressJS app.js file, assuming you're still using the default /public/javascripts </p>
+
+<pre><code>// debug mode, every request the files are checked for changes &amp; individual file downloads.
+var cassette = require('cassette-express')();
+
+// or production mode, generated once per restart. One single minified download.
+var cassette = require('cassette-express')({ mode : 'production' });
+</code></pre>
+
+<p>A little later on in app.js we make sure we have access to Cassette inside the templates..</p>
+
+<pre><code>app.set('view options', {
+    assets : cassette.middleware()
+});
+</code></pre>
+
+<p>Then in our template, i.e, layout.jade:</p>
+
+<pre><code>!= assets.useAsset('/app/client-app.js')
+</code></pre>
+
+<p>Which, in debug mode, would output something like...</p>
+
+<pre><code>&lt;script src="/javascripts/lib/jquery.js"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/lib/jquery-someplugin.js"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/lib/jquery-some-other-plugin.js"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/lib/underscore.js"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/lib/my-own-library-stuff.js"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/app/app-namespace.js"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/app/features/navigator.js"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/app/features/content.js"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/app/client-app.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>And in production mode all those scripts are merged, minified and then you get...</p>
+
+<pre><code>&lt;script src="/javascripts/cassette/AEEE546E7B7C7BCEBC.min.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>By default the compiled files are put in /public/javascripts/cassette. </p>
+
+<p>The gathering and sorting of dependencies is done automatically. In debug mode bundles are reassembled if there are any changes to teh sources. In production mode, node must be restarted before a new minified bundle is generated.</p>
+
+<h2>Example</h2>
+
+<p>In the repo, in the EXAMPLE folder, there's a skeleton Express.js application. The files of interest are app.js, views/index.jade and the javascript files in /public/javascripts. If you go into this folder, do <code>npm install</code> then <code>node app.js</code> you can test it's working.</p>
+
+<h2>Configuration</h2>
+
+<p>The only real configuration is to do with paths. If you're using the standard Express /public/javascripts directory, you don't need to worry about this.</p>
+
+<pre><code>// this...
+var cassette = require('cassette-express')();
+// is a shortcut for..
+var cassette = require('cassette-express')({
+        assetsPath : '/public/javascripts',
+        outputPath : '/javascripts',
+        buildPath : '/cassette',
+        mode : 'debug'
+    })
+</code></pre>
+
+<p>If your javascript assets are somewhere else, this is how you would configure that. It's probably best to leave the buildPath as '/cassette' - this makes your minified bundles output to <code>/public/javascripts/cassette</code> by default. </p>
+
+<p>This API is pretty horrible. Sorry.</p>
+
+<h2>Next Steps</h2>
+
+<ul>
+<li>Integration with Amazon S3 to allow automatic upload of minified bundles</li>
+<li>Add a dependency by referencing an external file, have that file downloaded and added to your bundle. </li>
+<li>If people want it, I could add automatic Coffeescript compiling. So far no-one wants it.</li>
+</ul><h2>Differences between Cassette-Express and Cassette MVC</h2>
+
+<ul>
+<li>Bundles are automatically generated by requesting any particular resource inside templates. You don't need to pre-reference them.</li>
+<li>Bundles will always be one single file in production mode, not multiple files depending on how they were pre-referenced.</li>
+<li>No automagic coffeescript compiling. Poor Coffeescript.</li>
+<li>No stylesheet merging/compiling.</li>
+<li>Significantly less features. Ha.</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Cassette-express maintained by <a href="https://github.com/CharlotteGore">CharlotteGore</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
