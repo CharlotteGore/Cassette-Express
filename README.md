@@ -77,6 +77,25 @@ The gathering and sorting of dependencies is done automatically. In debug mode b
 
 In the repo, in the EXAMPLE folder, there's a skeleton Express.js application. The files of interest are app.js, views/index.jade and the javascript files in /public/javascripts. If you go into this folder, do `npm install` then `node app.js` you can test it's working.
 
+
+##Cassette Options
+
+The only real configuration is to do with paths. 
+
+	// this...
+	var cassette = require('cassette-express')();
+	// is a shortcut for..
+	var cassette = require('cassette-express')({
+			assetsPath : '/public/javascripts',
+			outputPath : '/javascripts',
+			buildPath : '/cassette',
+			mode : 'debug'
+		})
+
+If your javascript assets are somewhere else, this is how you would configure that. It's probably best to leave the buildPath as '/cassette' - this makes your minified bundles output to `/public/javascripts/cassette` by default. 
+
+This API is pretty horrible. Sorry.
+
 ##Next Steps
 
 - Integration with Amazon S3 to allow automatic upload of minified bundles
