@@ -60,7 +60,7 @@
 					count++;					
 				}
 
-				count.should.eql(22);
+				count.should.eql(23);
 
 			});
 
