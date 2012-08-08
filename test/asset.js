@@ -30,18 +30,5 @@
 
 			});
 
-			describe('referencing a server side script', function(){
-
-				var assetsPath = norm('./test/examples');
-
-				it('can create an asset', function(){
-
-					var asset = Asset('loadserverside.js', '/LoadsServerSide', assetsPath, {mtime : (new Date()) } );
-
-					asset.fileDependencies().should.eql([norm('../../../node_modules/test/serverside.js')]);	
-
-				});
-
-			});
 
 		});
