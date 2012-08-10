@@ -5,11 +5,10 @@
 
 var express = require('express')
   , routes = require('./routes')
-
-  // require cassette...
-  , cassette = require('cassette-express')(); // we added an entry to package.json here..
+  , cassette
 
 var app = module.exports = express.createServer();
+var cassette = require('cassette-express')({mode: app.settings.env});
 
 // make the cassette middleware available inside templates..
 app.locals( {assets : cassette.middleware()} );
